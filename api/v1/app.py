@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    The entry point of our 'application'.
+    The entry point of our 'application'0.
 """
 
 
@@ -45,3 +45,5 @@ if __name__ == '__main__':
         port = getenv('HBNB_API_PORT')
     else:
         port = 5000
+
+    app.run(host=host, port=port, threaded=True)
