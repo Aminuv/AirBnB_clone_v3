@@ -2,11 +2,10 @@
 """
   The view to the handle all place objects'0'.
 """
-
-from flask import jsonify, abort, request, make_response
 from models import storage
 from api.v1.views import app_views
 from models.base_model import BaseModel
+from flask import jsonify, abort, request, make_response
 from models.city import City
 from models.user import User
 from models.place import Place
