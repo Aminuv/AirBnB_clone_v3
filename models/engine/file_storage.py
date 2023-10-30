@@ -1,14 +1,17 @@
 #!/usr/bin/python3
 """
-Contains the FileStorage class
+   Contains the FileStorage class
 """
 
 import json
 from models.amenity import Amenity
+
 from models.base_model import BaseModel
 from models.city import City
+
 from models.place import Place
 from models.review import Review
+
 from models.state import State
 from models.user import User
 
@@ -17,7 +20,7 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 
 
 class FileStorage:
-    """serializes instances to a JSON file & deserializes back to instances"""
+    """serializes instances to  JSON file & deserializes back to instances"""
 
     # string - path to the JSON file
     __file_path = "file.json"
@@ -25,7 +28,7 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """returns the dictionary __objects"""
+        """returns dictionary __objects"""
         if cls is not None:
             new_dict = {}
             for key, value in self.__objects.items():
@@ -35,7 +38,7 @@ class FileStorage:
         return self.__objects
 
     def new(self, obj):
-        """sets in __objects the obj with key <obj class name>.id"""
+        """sets in __objects  obj with key <obj class name>.id"""
         if obj is not None:
             key = obj.__class__.__name__ + "." + obj.id
             self.__objects[key] = obj
@@ -55,7 +58,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception:
             pass
 
     def delete(self, obj=None):
@@ -68,3 +71,16 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def get(self, cls, id):
+        """Retrieve a object"""
+
+        if cls and id:
+            objs = self.all(cls)
+            key = '{}.{}'.format(cls.__name__, id)
+            return objs.get(key)
+        return None
+
+    def count(self, cls=None):
+        """Get length of the objects"""
+        return len(self.all(cls))
