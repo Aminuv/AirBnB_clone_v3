@@ -1,38 +1,31 @@
 #!/usr/bin/python3
-"""
-    Define the routes of 'blueprint'.
-"""
-
+""" the index file """
 from api.v1.views import app_views
+from flask import jsonify
 from models import storage
-from models.state import State
-from models.city import City
 from models.amenity import Amenity
+from models.city import City
 from models.place import Place
 from models.review import Review
+from models.state import State
 from models.user import User
 
 
-@app_views.route("/status", strict_slashes=False, methods=["GET"])
-def status():
-    return {
-        "status": "OK",
-    }
+@app_views.route('/status', strict_slashes=False)
+def statusok():
+    """ status home page """
+    return jsonify(status='OK'), 200
 
 
-@app_views.route("/stats", strict_slashes=False, methods=["GET"])
-def stats():
-    amenities = storage.count(Amenity)
-    cities = storage.count(City)
-    places = storage.count(Place)
-    reviews = storage.count(Review)
-    states = storage.count(State)
-    users = storage.count(User)
-    return {
-        "amenities": amenities,
-        "cities": cities,
-        "places": places,
-        "reviews": reviews,
-        "states": states,
-        "users": users,
-    }
+@app_views.route('/stats', strict_slashes=False)
+def statssok():
+    """ stats home page """
+    data = {
+            "amenities": storage.count(Amenity),
+            "cities": storage.count(City),
+            "places": storage.count(Place),
+            "reviews": storage.count(Review),
+            "states": storage.count(State),
+            "users": storage.count(User),
+           }
+    return jsonify(data), 200
