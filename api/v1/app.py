@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-  The endpoint r will be returned the status of "API"
-"""
+""" The endpoint 'route' will be to return the status of your 'API'. """
 import os
 from flask import Flask
 from models import storage
