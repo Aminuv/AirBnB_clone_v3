@@ -2,6 +2,8 @@
 """
     The entry point of our 'application'.
 """
+
+
 from os import getenv
 from flask import Flask, jsonify
 from models import storage
@@ -43,5 +45,3 @@ if __name__ == '__main__':
         port = getenv('HBNB_API_PORT')
     else:
         port = 5000
-
-    app.run(host=host, port=
