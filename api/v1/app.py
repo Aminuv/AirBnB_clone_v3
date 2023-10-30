@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 """
-    The entry point of our 'application'0.
+    The entry point of our application'0'.
 """
-
 
 from os import getenv
 from flask import Flask, jsonify
