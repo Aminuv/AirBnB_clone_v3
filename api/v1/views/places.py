@@ -2,7 +2,6 @@
 """
   The view to the handle all place objects'0'.
 """
-
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -16,11 +15,10 @@ from flask import abort, jsonify, request
 @app_views.route("/cities/<city_id>/places", methods=["GET"],
                  strict_slashes=False)
 def city_places(city_id):
-    """Method to get all city places"""
+    """ The Method to get all city places. """
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-
     places = storage.all(Place).values()
     return jsonify([place.to_dict() for place in places
                     if place.city_id == city_id]), 200
@@ -41,28 +39,24 @@ def get_place(place_id):
 @app_views.route("/places/<place_id>", methods=["DELETE"],
                  strict_slashes=False)
 def delete_place(place_id):
-    """Method to delete place by using id"""
+    """ The Method to delete place by using 'id'. """
     place = storage.get(Place, place_id)
-
     if place is None:
         abort(404)
-
     storage.delete(place)
     storage.save()
-
     return jsonify({}), 200
 
 
 @app_views.route("/cities/<city_id>/places", methods=["POST"],
                  strict_slashes=False)
 def create_place(city_id):
-    """Method to create a new place"""
+    """ The Method to create a new place. """
     city = storage.get(City, city_id)
     if city is None:
+
         abort(404)
-
     data = request.get_json()
-
     if data is None:
         abort(400, "Not a JSON")
 
@@ -80,21 +74,19 @@ def create_place(city_id):
     place = Place(**data)
     setattr(place, "city_id", city_id)
     place.save()
-
     return jsonify(place.to_dict()), 201
 
 
 @app_views.route("/places/<place_id>", methods=["PUT"],
                  strict_slashes=False)
 def update_place(place_id):
-    """Method to update a place by using id"""
+    """ The Method to update a place by using 'id'. """
     place = storage.get(Place, place_id)
 
     if place is None:
         abort(404)
 
     data = request.get_json()
-
     if data is None:
         abort(400, "Not a JSON")
 
@@ -102,7 +94,6 @@ def update_place(place_id):
         if key in ["id", "user_id", "city_id", "created_at", "updated_at"]:
             continue
         setattr(place, key, value)
-
     place.save()
     return jsonify(place.to_dict()), 200
 
@@ -110,8 +101,8 @@ def update_place(place_id):
 @app_views.route("/places_search", methods=["POST"],
                  strict_slashes=False)
 def search_places():
-    """Method that retrieves all Place objects depending of
-    the JSON in the body of the request
+    """ The Method that retrieves all Place objects depending of
+              the 'JSON' in the body of the request.
     """
     if not request.is_json:
         abort(400, "Not a JSON")
@@ -130,7 +121,6 @@ def search_places():
     states = [storage.get(State, id) for id in states_list]
     cities = [storage.get(City, id) for id in cities_list]
     amenities = [storage.get(Amenity, id) for id in amenities_list]
-
     places = []
     for state in states:
         if state:
