@@ -2,6 +2,7 @@
 """
   The view to the handle all place objects'0'.
 """
+
 from models import storage
 from api.v1.views import app_views
 from models.base_model import BaseModel
@@ -36,7 +37,7 @@ def one_place(place_id):
 @app_views.route('/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_place(place_id):
-    """Delete place object"""
+    """ Delete place object"""
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
@@ -58,7 +59,6 @@ def post_place(city_id):
         abort(400, "Missing name")
 
     user_id = post_req['user_id']
-
     __user = storage.get(User, user_id)
     __city = storage.get(City, city_id)
     if not __user or not __city:
@@ -73,7 +73,7 @@ def post_place(city_id):
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def put_place(place_id):
-    """Update a place object with the provided place id"""
+    """ Update a place object with the provided place id"""
     put_req = request.get_json()
     if not put_req:
         abort(400, "Not a  JSON")
